@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>ItHurts Team Portal</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap row">
+      <a class="brand" href="index.html"><span class="mark" aria-hidden="true"></span> ItHurts Studio · Team</a>
+      <nav class="nav" aria-label="Pages">
+        <a href="index.html" aria-current="page">Start here</a>
+        <a href="handbook.html">Handbook</a>
+        <a href="checklist.html">Daily checklist</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <p class="eyebrow">Private · for the ItHurts team</p>
+      <h1>Your day starts in the studio</h1>
+      <p class="lede">Everything ItHurts posts is prepared, reviewed and scheduled in the studio. This page is the front door: open the studio, keep the handbook handy, and tick off the daily routine.</p>
+      <div class="actions">
+        <a class="button primary" id="open-studio" href="#" target="_blank" rel="noopener">Open the studio</a>
+        <a class="button" href="handbook.html">Read the handbook</a>
+      </div>
+      <p class="small" id="studio-note">Studio address: <code id="studio-url"></code></p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Every day</h2>
+        <ul>
+          <li><strong>2 reels</strong> (one comedy skit, one product skit)</li>
+          <li><strong>4 image posts</strong> (2 carousels, 2 photos)</li>
+          <li><strong>1 article</strong> (Ouch File or Pain Insight)</li>
+          <li><strong>Long YouTube video</strong> on Tuesday and Friday</li>
+        </ul>
+        <p class="small">No more, no less. Each post has a different job: reach, product, sign-ups, traffic, community, shop.</p>
+      </article>
+
+      <article class="card">
+        <h2>The routine</h2>
+        <ol>
+          <li>Morning (US Eastern): open <strong>Today</strong>, prepare it if empty, review each item.</li>
+          <li>Approve what is good; reject or discard the rest.</li>
+          <li>Afternoon: prepare <strong>Tomorrow</strong>.</li>
+          <li>Check <strong>Skits</strong> and <strong>Image posts</strong> once a day.</li>
+        </ol>
+        <a class="link" href="checklist.html">Open the tick-off checklist →</a>
+      </article>
+
+      <article class="card">
+        <h2>Credits at a glance</h2>
+        <table class="mini">
+          <tr><td>Writing anything</td><td>free</td></tr>
+          <tr><td>Prepare a day</td><td>≈ 256</td></tr>
+          <tr><td>Skit storyboard</td><td>≈ 40</td></tr>
+          <tr><td>Skit animation</td><td>≈ 420</td></tr>
+          <tr><td>Redraw one shot</td><td>8</td></tr>
+          <tr><td>One photo</td><td>8</td></tr>
+          <tr><td>Long YouTube video</td><td>900–1,600</td></tr>
+        </table>
+        <p class="small">Your daily allowance shows at the top right of the studio. When the Runway balance says "low", tell the owner.</p>
+      </article>
+
+      <article class="card">
+        <h2>Rules that never change</h2>
+        <ul>
+          <li>Every promotion is a story: character, twist, product as their move, payoff.</li>
+          <li>No medical claims. Never cure, treat, heal, prevent, diagnose or guarantee.</li>
+          <li>3–5 hashtags. Reels 25 seconds or under. Hook headline in the first second.</li>
+          <li>Colour logo with the white glow, top-left, the whole video.</li>
+          <li>Scheduled posts are changed in Metricool, not in the studio.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Ask the owner for</h2>
+        <ul>
+          <li>A new password (there are no reset emails).</li>
+          <li>A higher daily allowance, or a Runway top-up.</li>
+          <li>Anything in Products, the shop, Settings or API keys.</li>
+        </ul>
+        <p class="small">Owner: <span id="owner-contact"></span></p>
+      </article>
+
+      <article class="card">
+        <h2>Useful links</h2>
+        <ul class="links" id="links"></ul>
+      </article>
+    </section>
+  </main>
+
+  <footer class="wrap foot">ItHurts Studio team portal · private · not for the public site</footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

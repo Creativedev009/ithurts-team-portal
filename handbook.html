@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="styles.css">
+<title>Handbook · ItHurts Team</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+  /* Layout: a quiet handbook. One reading column with a sticky contents rail on wide screens; the brand rust only on headings, rules and the few "do this" callouts. */
+  :root {
+    --bg: #FBF7F4;
+    --surface: #FFFFFF;
+    --fg: #1F1A18;
+    --muted: #6B5F5A;
+    --line: #E6DAD4;
+    --accent: #883621;
+    --accent-ink: #FFFFFF;
+    --soft: #F6E9E3;
+    --ok: #2F6B45;
+    --warn: #8A5A12;
+    --warn-bg: #FBF1DC;
+    --display: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+    --body: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17120F; --surface: #211A17; --fg: #F3ECE8; --muted: #B5A69F; --line: #3A2E29; --accent: #E8A58A; --accent-ink: #1F1A18; --soft: #2C1F1A; --ok: #8FD1A6; --warn: #E8C27A; --warn-bg: #2F2614; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #17120F; --surface: #211A17; --fg: #F3ECE8; --muted: #B5A69F; --line: #3A2E29; --accent: #E8A58A; --accent-ink: #1F1A18; --soft: #2C1F1A; --ok: #8FD1A6; --warn: #E8C27A; --warn-bg: #2F2614; color-scheme: dark;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 40px; }
+  @media (max-width: 760px) { .wrap { grid-template-columns: minmax(0, 1fr); gap: 0; } nav.toc { position: static; margin-bottom: 24px; } }
+  header.top { grid-column: 1 / -1; padding: 40px 0 24px; border-bottom: 2px solid var(--accent); margin-bottom: 28px; }
+  .eyebrow { font-family: var(--display); font-weight: 600; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 4vw, 40px); line-height: 1.1; margin: 8px 0 10px; text-wrap: balance; }
+  .lede { max-width: 62ch; color: var(--muted); margin: 0; }
+  nav.toc { position: sticky; top: env(safe-area-inset-top, 0px); align-self: start; padding-top: 4px; font-family: var(--display); font-size: 13px; }
+  nav.toc .eyebrow { margin-bottom: 8px; display: block; }
+  nav.toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  nav.toc a { color: var(--fg); text-decoration: none; font-weight: 500; }
+  nav.toc a:hover, nav.toc a:focus-visible { color: var(--accent); text-decoration: underline; }
+  main { min-width: 0; }
+  main > section { padding: 8px 0 28px; border-bottom: 1px solid var(--line); margin-bottom: 28px; }
+  main > section:last-child { border-bottom: 0; }
+  h2 { font-family: var(--display); font-weight: 700; font-size: 24px; line-height: 1.2; margin: 0 0 12px; text-wrap: balance; }
+  h3 { font-family: var(--display); font-weight: 600; font-size: 16px; margin: 24px 0 8px; }
+  p, li { max-width: 68ch; }
+  p { margin: 0 0 12px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  strong { font-weight: 600; }
+  kbd, .btn { font-family: var(--display); font-weight: 600; font-size: 13px; background: var(--soft); color: var(--fg); border: 1px solid var(--line); border-radius: 6px; padding: 1px 7px; white-space: nowrap; }
+  .callout { background: var(--soft); border-left: 4px solid var(--accent); padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 14px 0 18px; max-width: 72ch; }
+  .callout.warn { background: var(--warn-bg); border-left-color: var(--warn); }
+  .callout p:last-child { margin-bottom: 0; }
+  .tablewrap { overflow-x: auto; margin: 10px 0 18px; }
+  table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 15px; background: var(--surface); }
+  th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+  th { font-family: var(--display); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .state { display: inline-block; font-family: var(--display); font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); }
+  .state.ok { color: var(--ok); border-color: currentColor; }
+  .state.warn { color: var(--warn); border-color: currentColor; }
+  .steps { counter-reset: step; list-style: none; padding-left: 0; }
+  .steps > li { counter-increment: step; position: relative; padding-left: 40px; margin-bottom: 10px; }
+  .steps > li::before { content: counter(step); position: absolute; left: 0; top: 2px; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-family: var(--display); font-weight: 700; font-size: 13px; display: grid; place-items: center; }
+  footer { grid-column: 1 / -1; color: var(--muted); font-size: 14px; font-family: var(--display); padding-top: 12px; }
+  a { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap row">
+      <a class="brand" href="index.html"><span class="mark" aria-hidden="true"></span> ItHurts Studio · Team</a>
+      <nav class="nav" aria-label="Pages">
+        <a href="index.html">Start here</a>
+        <a href="handbook.html" aria-current="page">Handbook</a>
+        <a href="checklist.html">Daily checklist</a>
+      </nav>
+    </div>
+  </header>
+
+
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">ItHurts Studio · for the Social Media Manager</span>
+    <h1>ItHurts Studio Handbook</h1>
+    <p class="lede">How to run a day of ItHurts content: what the studio makes, what each button does, what costs credits, and who to ask when something is outside your login. Written 19 October 2026.</p>
+  </header>
+
+  <nav class="toc" aria-label="Contents">
+    <span class="eyebrow">Contents</span>
+    <ol>
+      <li><a href="#start">1. Logging in</a></li>
+      <li><a href="#day">2. A normal day</a></li>
+      <li><a href="#today">3. The Today page</a></li>
+      <li><a href="#skits">4. Skits and reels</a></li>
+      <li><a href="#images">5. Image posts</a></li>
+      <li><a href="#article">6. The daily article</a></li>
+      <li><a href="#assets">7. Assets and Brand</a></li>
+      <li><a href="#credits">8. Credits</a></li>
+      <li><a href="#rules">9. Content rules</a></li>
+      <li><a href="#owner">10. Ask the owner</a></li>
+      <li><a href="#fix">11. When something stops</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <section id="start">
+      <h2>1. Logging in</h2>
+      <p>The studio is a website. Open the address the owner gives you (for example <strong>studio.ithurts.com</strong>) in Chrome and log in with your email and password. Nothing is installed on your laptop.</p>
+      <ul>
+        <li>Your login stays active for 14 days on that browser.</li>
+        <li>Your name and <strong>how many Runway credits you have left today</strong> are shown at the top right. <kbd>Log out</kbd> is next to it.</li>
+        <li>Forgot your password? There are no reset emails. Ask the owner, who sets a new one in Settings → Team.</li>
+        <li>After 8 wrong passwords the login pauses for 15 minutes.</li>
+      </ul>
+      <p>The menu shows <kbd>Today</kbd>, <kbd>Tomorrow</kbd>, <kbd>Assets</kbd> and <kbd>Brand</kbd>. Two more pages open from links on Today: <strong>Skits</strong> (the "Cast &amp; ideas" link) and <strong>Image posts</strong> (the "Image posts →" banner). Products and Settings belong to the owner; if you open one you are sent back to Today.</p>
+    </section>
+
+    <section id="day">
+      <h2>2. A normal day</h2>
+      <p>Every day ItHurts posts the same mix, no more and no less:</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>What</th><th>How many</th><th>Where it goes</th></tr></thead>
+          <tbody>
+            <tr><td>Reels (one comedy skit for reach, one product skit)</td><td class="num">2</td><td>Instagram, Facebook, TikTok, YouTube Shorts</td></tr>
+            <tr><td>Image posts (2 carousels + 2 single photos)</td><td class="num">4</td><td>Instagram and Facebook</td></tr>
+            <tr><td>Website article (an Ouch File or a Pain Insight)</td><td class="num">1</td><td>WordPress, as a draft the owner publishes</td></tr>
+            <tr><td>Long YouTube video (Maya Tries It, about 3 minutes, plus 3 Shorts)</td><td class="num">Tue &amp; Fri</td><td>YouTube; the Shorts follow one a day</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Each post has a different job: reach, product, sign-ups, website traffic, community, shop. Over a week the whole site gets shown.</p>
+
+      <h3>The routine</h3>
+      <ol class="steps">
+        <li><strong>Morning (US Eastern time): open Today.</strong> If nothing is prepared, click <kbd>Prepare today's content</kbd>. Preparing costs about 256 credits and starts straight away, with no second question, so click it once.</li>
+        <li><strong>Review each item as it becomes ready.</strong> Watch the video, read the captions for every platform, open the carousel preview. Fix captions where needed (free).</li>
+        <li><strong>Approve what is good.</strong> <kbd>Approve &amp; schedule</kbd> sends it to Metricool at its planned time. Your click counts as the human review.</li>
+        <li><strong>Reject or discard what is not.</strong> Nothing is posted unless you approve it. A day that passes without approval is never posted.</li>
+        <li><strong>Afternoon: open Tomorrow</strong> and prepare it the same way, so there is time to review before the morning.</li>
+        <li><strong>Check Skits once a day</strong> for storyboards waiting for you and ideas to write, and <strong>Image posts</strong> for anything you made by hand.</li>
+      </ol>
+      <div class="callout"><p>Short on something? Today tells you ("This day is short of your daily mix"). Click <kbd>Top up the day</kbd>, read the cost, then <kbd>Confirm — make them</kbd>.</p></div>
+    </section>
+
+    <section id="today">
+      <h2>3. The Today page</h2>
+      <p>Today and Tomorrow are the same page for different days. At the top: the date, the day's pain theme (you can change it in the "Pain" dropdown before preparing), the Runway balance and whether posting is live.</p>
+
+      <h3>Sections, top to bottom</h3>
+      <ol>
+        <li><strong>Carousels</strong> (Instagram + Facebook)</li>
+        <li><strong>Photos</strong></li>
+        <li>A banner to <strong>make your own photo or carousel</strong> (opens Image posts)</li>
+        <li><strong>Skits</strong>, with <kbd>Write a skit (free)</kbd></li>
+        <li><strong>Informational videos</strong> (Reels, TikTok, Shorts)</li>
+        <li><strong>Ouch File / Pain Insight</strong>, the article</li>
+        <li><strong>Long YouTube video</strong> on episode days</li>
+        <li><strong>Recent days</strong>, the history</li>
+      </ol>
+
+      <h3>What the states mean</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>State</th><th>Meaning</th><th>What you do</th></tr></thead>
+          <tbody>
+            <tr><td><span class="state">Preparing</span></td><td>Being written or made</td><td>Wait</td></tr>
+            <tr><td><span class="state ok">Ready</span></td><td>Waiting for your review</td><td>Review, then approve or reject</td></tr>
+            <tr><td><span class="state warn">Needs you</span></td><td>Stopped on a problem (often Metricool or the caption check)</td><td>Read the note, fix or <kbd>Retry</kbd></td></tr>
+            <tr><td><span class="state warn">Over budget</span></td><td>Would pass the studio's daily credit cap (800)</td><td>Tell the owner; they raise the cap and you retry</td></tr>
+            <tr><td><span class="state ok">Scheduled</span></td><td>Accepted by Metricool for every platform</td><td>Nothing. To change it now, edit it in Metricool</td></tr>
+            <tr><td><span class="state">Not posted</span></td><td>You rejected it</td><td>Nothing; the draft stays in Campaigns</td></tr>
+            <tr><td><span class="state warn">Out of date</span></td><td>The day passed without approval</td><td>Discard it; a stopped item offers <kbd>Make it again today</kbd></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Buttons on every card</h3>
+      <ul>
+        <li><kbd>Approve &amp; schedule</kbd> opens a dialog that says where and when it will post. Live means a real post.</li>
+        <li><kbd>Reject</kbd> never posts it.</li>
+        <li><kbd>Retry</kbd> for a stopped item. Free retries run at once; paid ones show the cost first.</li>
+        <li><kbd>Start over</kbd> makes it again from scratch (new captions, plan and media; the old one stays in Campaigns). The dialog has a box for <strong>what to change</strong>: "funnier hook", "show the product in the first shot", "warmer photo", "calmer tone". The writer follows your note.</li>
+        <li><kbd>Discard</kbd> removes it from the day.</li>
+        <li><kbd>Details</kbd> opens the full workspace for that item.</li>
+        <li>Caption tabs: one caption per platform. Instagram gets "link in bio"; Facebook gets the tracked link.</li>
+      </ul>
+
+      <h3>The caption check</h3>
+      <p>Before a video is made, the captions are checked for claim wording and tone. If the box says "Caption QA flagged N lines":</p>
+      <ul>
+        <li><strong>HIGH</strong> lines must be edited: <kbd>Edit captions</kbd> → <kbd>Save &amp; check again</kbd>. Editing is free.</li>
+        <li><strong>MEDIUM</strong> lines can be accepted with <kbd>Accept &amp; continue</kbd> if you are sure the wording is fine.</li>
+        <li><kbd>Check again</kbd> is free, but if the captions now pass, the video is made and its cost is charged.</li>
+      </ul>
+
+      <h3>Day-level buttons</h3>
+      <ul>
+        <li><kbd>Make N new posts</kbd> adds posts; the dialog shows the cost.</li>
+        <li><kbd>Start day over</kbd> re-plans the whole day and charges again. Only shown while nothing is approved.</li>
+        <li><kbd>Discard day</kbd> / <kbd>Discard the rest</kbd> drops what is left; drafts stay in Campaigns.</li>
+        <li><kbd>Daily mix settings</kbd> opens the mix panel. You can read it and refresh Metricool's best times, but <strong>saving is the owner's</strong>; the server refuses it from your login.</li>
+      </ul>
+    </section>
+
+    <section id="skits">
+      <h2>4. Skits and reels</h2>
+      <p>Skits are the comedy reels with the recurring 3D cast: Mitzi the Savage Cat, Gus, Brutus, Nana Pearl, Kevin, Pip, Rocco, and Maya, the ItHurts host. Writing is free; you see the cost before any video is made; you approve before anything is posted.</p>
+
+      <h3>From idea to post</h3>
+      <ol class="steps">
+        <li><strong>Write.</strong> On Skits → <kbd>Write the skit (free)</kbd>: pick the star, the format, an optional product and an idea. Or use <kbd>Suggest 5 new ideas (free)</kbd> on the Ideas tab, or the Calendar tab's <kbd>Write all N open slots (free)</kbd>. The script appears as <span class="state">Script ready</span>. Not happy? <kbd>Rewrite…</kbd> with a direction such as "funnier last line" (free).</li>
+        <li><strong>Draw the storyboard.</strong> <kbd>Draw storyboard (~N credits)</kbd> makes one still per shot, about 8 credits a shot (about 40 for a reel). Check that every shot reads: right character, right product, nothing odd. The card asks "Storyboard — does every shot read?"</li>
+        <li><strong>Animate.</strong> <kbd>Animate (~N credits)</kbd> makes the video: 15 credits per second, so about 420 for a 28-second reel. Wait for <span class="state ok">Ready for approval</span>.</li>
+        <li><strong>Approve.</strong> <kbd>Approve &amp; schedule</kbd> posts it to Instagram, Facebook, TikTok and YouTube Shorts at its slot (Metricool's best hour, or 7 pm). A long YouTube video goes to YouTube only, and its 3 Shorts post one a day on the following days.</li>
+      </ol>
+      <div class="callout"><p>A shot that looks wrong after the storyboard is cheaper to fix than a whole reel. Under each still there is <kbd>Redraw shot N</kbd>: say what is wrong ("the product is missing", "Brutus looks angry, not sleepy") and confirm. One shot is about 8 credits. Animate only when every shot reads.</p></div>
+
+      <h3>Formats</h3>
+      <ul>
+        <li>Tips episode (Maya, 3 clear points, about 24 s)</li>
+        <li>Maya Tries It, the long YouTube video (about 3 min + 3 Shorts)</li>
+        <li>Problem → chaos → product · Unsolicited advice · Expectation vs reality · Fake luxury ad · Product courtroom · Relatable chaos (no product)</li>
+      </ul>
+
+      <h3>The mix the Skits page watches</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Category</th><th>Target share</th></tr></thead>
+          <tbody>
+            <tr><td>Talking animals &amp; absurd comedy</td><td class="num">30%</td></tr>
+            <tr><td>Relatable human pain humour</td><td class="num">20%</td></tr>
+            <tr><td>Funny product integrations</td><td class="num">20%</td></tr>
+            <tr><td>Community stories</td><td class="num">15%</td></tr>
+            <tr><td>Entertaining (non-medical) education</td><td class="num">10%</td></tr>
+            <tr><td>Creator &amp; behind the scenes</td><td class="num">5%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The <strong>Numbers</strong> tab shows how posted skits did (refreshed every 6 hours). Characters are judged after 3 posted episodes, never on one post.</p>
+      <p>Skits are extra to the daily reels; they never replace them.</p>
+    </section>
+
+    <section id="images">
+      <h2>5. Image posts</h2>
+      <p>Photos and carousels for Instagram and Facebook, in the ItHurts look. Writing and previewing are free. A new photo from Runway costs about 8 credits and asks you first. Nothing is posted until you click Schedule.</p>
+
+      <h3>Making one</h3>
+      <ol class="steps">
+        <li><strong>New post:</strong> type a short brief, pick the <strong>Job</strong> (Sign-ups, Website traffic, Community, Shop, Product sale, Other), the number of slides (1 is a photo, up to 6 for a carousel) and where it <strong>sends people</strong> (Free Pain Check-Up, Join free, Support groups, Invite &amp; Earn, The Ouch Files, Pain Insights, Become a contributor, The shop, or another page). Then <kbd>Write it for me (free)</kbd> or <kbd>Start blank</kbd>.</li>
+        <li><strong>Edit each slide.</strong> Layouts: "Photo + text", "One product", or "Shop picks (up to 3)". Put *stars* around the punchline in the headline to highlight it. For a photo slide, write a photo prompt and click <kbd>Make photo (~8 credits)</kbd>, or <kbd>Upload my photo</kbd> (JPEG, PNG or WebP, under 12 MB). Never put the headline over a face.</li>
+        <li><strong>Preview.</strong> <kbd>Make preview</kbd> renders the slides at 1080×1350. If it says "You changed something since this preview", make it again.</li>
+        <li><strong>Caption:</strong> 2 to 4 short lines in the ItHurts voice, with one question to start comments. Instagram adds "👉 link in bio"; Facebook gets the tracked link.</li>
+        <li><strong>Schedule (US Eastern).</strong> Pick date and time, at least 10 minutes ahead, then <kbd>Schedule to Instagram + Facebook</kbd>. Best US times from Metricool: community 09:00 · sign-ups 10:00 · shop 11:00 · traffic 17:00 (Sunday community 19:00).</li>
+      </ol>
+      <p>After scheduling, the post is locked. To change it, edit it in Metricool, or <kbd>Duplicate</kbd> it here and schedule the copy. <kbd>Save</kbd> keeps a draft; <kbd>Delete</kbd> removes a draft and its photos.</p>
+      <p>Image posts that the studio prepares on Today use the product's own shop photo at no cost; only a photo without a product costs about 8 credits.</p>
+    </section>
+
+    <section id="article">
+      <h2>6. The daily article</h2>
+      <p>Each day has one article, alternating an <strong>Ouch File</strong> (a vivid first-person pain story) and a <strong>Pain Insight</strong> (what a condition feels like). The first reel of the day retells it. On the card, <kbd>Read the full article</kbd> shows the text.</p>
+      <ul>
+        <li><kbd>Approve &amp; schedule</kbd> creates a <strong>WordPress draft</strong>. The studio never publishes articles itself; the owner publishes it from WordPress. The card then shows the draft link.</li>
+        <li>Retry and Start over on an article are free.</li>
+        <li>If the card asks "Which website category should this go in?", leave it: that choice needs the owner's login.</li>
+      </ul>
+    </section>
+
+    <section id="assets">
+      <h2>7. Assets and Brand</h2>
+      <p><strong>Assets</strong> lists the latest 200 finished videos, images and voice files from the daily content, with a <kbd>Download</kbd> link on each. Filters: All, Ready to post, Finished, Raw generations, Voice &amp; sound. Skit videos and image-post slides are not listed there: skit videos play on the skit card, and slides open from the Image posts preview.</p>
+      <p><strong>Brand</strong> holds the brand profile the writer follows: tagline ("Because no one should face pain alone."), tone (relatable, empathetic, playful, validating, informative), colours, the Montserrat font, audience and "never in our marketing". It also runs 7-day campaign ideas. Your login can edit these, but <strong>don't change the brand profile or start or stop a campaign without the owner's OK</strong>: every post the studio writes follows it.</p>
+    </section>
+
+    <section id="credits">
+      <h2>8. Credits</h2>
+      <p>Videos and photos are made with Runway, which is paid in credits. You have a <strong>daily allowance</strong> (set by the owner, 1,000 by default); it is shown at the top right and resets each day on US Eastern time. The studio also has a daily cap of 800 for the automatic content. The Runway account balance is the owner's; when Today says it is low, tell the owner.</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Action</th><th>About</th></tr></thead>
+          <tbody>
+            <tr><td>Writing anything: scripts, captions, ideas, rewrites, articles</td><td class="num">free</td></tr>
+            <tr><td>Prepare a day</td><td class="num">256</td></tr>
+            <tr><td>Reel with voiceover</td><td class="num">125</td></tr>
+            <tr><td>3D animal story reel</td><td class="num">128</td></tr>
+            <tr><td>Skit storyboard</td><td class="num">8 per shot (about 40)</td></tr>
+            <tr><td>Skit animation</td><td class="num">15 per second (about 420)</td></tr>
+            <tr><td>Redraw one storyboard shot</td><td class="num">8</td></tr>
+            <tr><td>Long YouTube video</td><td class="num">900 to 1,600</td></tr>
+            <tr><td>One photo from Runway</td><td class="num">8</td></tr>
+            <tr><td>Talking-actor video</td><td class="num">Arcads credits, not Runway</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Every paid step shows its cost and asks you to confirm, except <kbd>Prepare today's content</kbd>, which runs on the first click. If a step would pass your allowance, the studio says so and nothing is sent.</p>
+      <div class="callout warn"><p>Never retry or restart something that already spent credits unless the owner has agreed. A stopped video can often be finished without paying again; ask first.</p></div>
+    </section>
+
+    <section id="rules">
+      <h2>9. Content rules</h2>
+      <ul>
+        <li><strong>Every promotion is a story:</strong> a character, a twist, the product as their move, a payoff. No bare product ads.</li>
+        <li><strong>Reels:</strong> a hook headline in the first second, highlighted captions, a pop card, the product visible, a dark product end card. Keep reels at 25 seconds or under; open with a POV line.</li>
+        <li><strong>Hashtags:</strong> 3 to 5, no more.</li>
+        <li><strong>No medical claims.</strong> Never cure, treat, heal, prevent, diagnose or guarantee. Say "many people use it for…". Health posts carry a "not medical advice" line; the article does too.</li>
+        <li><strong>Affiliate links</strong> stay in the caption with #ad; the studio adds them. Don't remove them.</li>
+        <li><strong>The logo</strong> is the colour version with the white glow, fixed top-left for the whole video. Never the white version or a white box.</li>
+        <li><strong>Brand colours:</strong> #883621, #792314, #490C0B. Font: Montserrat.</li>
+        <li><strong>YouTube</strong> is story or documentary style, never a sales pitch.</li>
+        <li><strong>Ideas come from the Viral Video Factory</strong> cast and concept bank on the Skits page, not from generic scripts.</li>
+        <li><strong>Scheduled posts are changed in Metricool</strong>, not in the studio.</li>
+      </ul>
+    </section>
+
+    <section id="owner">
+      <h2>10. Things that need the owner</h2>
+      <p>The server checks every request, so these fail from your login even where a button shows:</p>
+      <ul>
+        <li>Saving <strong>Daily mix settings</strong> (posts per day, times, platforms, credit cap).</li>
+        <li><strong>Re-sync shop products</strong>.</li>
+        <li>Choosing a <strong>website category</strong> for an article.</li>
+        <li><strong>Products</strong>, the shop, WordPress pages and publishing articles.</li>
+        <li><strong>Settings</strong>: API keys, Team logins, passwords, your daily limit.</li>
+        <li>Raising the studio's daily credit cap and topping up Runway.</li>
+      </ul>
+      <p>When you hit one of these, note the item and the day, and send it to the owner.</p>
+    </section>
+
+    <section id="fix">
+      <h2>11. When something stops</h2>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>You see</th><th>What it means</th><th>Do this</th></tr></thead>
+          <tbody>
+            <tr><td>"Needs you · Metricool: not scheduled on …"</td><td>One platform refused the post</td><td><kbd>Retry</kbd>. It resends only the failed platforms.</td></tr>
+            <tr><td>"Skipped: ≈N credits would pass today's cap"</td><td>The day's automatic cap (800) is used up</td><td>Tell the owner; retry once the cap is raised.</td></tr>
+            <tr><td>"… needs about N Runway credits, but your daily allowance has X left"</td><td>Your own allowance is used up</td><td>Wait for tomorrow, or ask the owner to raise it.</td></tr>
+            <tr><td>"Runway balance … · low"</td><td>The account is nearly out of credits</td><td>Tell the owner before preparing more video.</td></tr>
+            <tr><td>"Out of date — never posted"</td><td>The day passed before approval</td><td>Discard it. Prepare tomorrow earlier.</td></tr>
+            <tr><td>"This skit is already scheduled — manage it in Metricool"</td><td>It has left the studio</td><td>Open Metricool to move or delete it.</td></tr>
+            <tr><td>"Too many attempts. Wait 15 minutes"</td><td>8 wrong passwords</td><td>Wait, then try again; ask the owner for a new password if unsure.</td></tr>
+            <tr><td>"Your login does not have access to this part of the studio"</td><td>An owner-only action</td><td>See section 10.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>If a page looks stuck, reload it. Work in progress carries on in the background and the page catches up.</p>
+    </section>
+  </main>
+
+  <footer>ItHurts Studio handbook · 19 October 2026 · Questions go to the studio owner.</footer>
+</div>
+
+</body>
+</html>
