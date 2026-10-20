@@ -1,7 +1,7 @@
 // Team portal settings. Change these and nothing else.
 window.PORTAL = {
   // The studio's online address (set once it is hosted; localhost works only on the owner's Mac).
-  studioUrl: 'https://researcher-prescribed-dates-required.trycloudflare.com',
+  studioUrl: 'https://lasting-jacksonville-buyer-librarian.trycloudflare.com',
   // Shown on the "Ask the owner for" card. Name and the way to reach them (no passwords here).
   ownerContact: 'The studio owner (ItHurts.com)',
   // Links on the "Useful links" card.
